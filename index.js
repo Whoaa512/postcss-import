@@ -12,6 +12,7 @@ const loadContent = require("./lib/load-content")
 const processContent = require("./lib/process-content")
 const parseStatements = require("./lib/parse-statements")
 
+let id = ''
 function AtImport(options) {
   options = Object.assign(
     {
@@ -43,6 +44,7 @@ function AtImport(options) {
 
     if (styles.source && styles.source.input && styles.source.input.file) {
       state.importedFiles[styles.source.input.file] = {}
+      id = styles.source.input.file.replace(process.cwd(), '')
     }
 
     if (options.plugins && !Array.isArray(options.plugins)) {
@@ -127,6 +129,7 @@ function applyStyles(bundle, styles) {
 }
 
 function parseStyles(result, styles, options, state, media) {
+  console.log('parseStyles on', id)
   const statements = parseStatements(result, styles)
 
   return Promise.resolve(statements)
